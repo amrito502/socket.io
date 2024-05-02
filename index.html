@@ -24,6 +24,7 @@
   </body>
 
   <script>
+    const ul = document.getElementById("ul");
     const ws = new WebSocket("ws://localhost:3030");
     ws.onopen = function () {
       const form = document.getElementById("form");
@@ -31,14 +32,17 @@
         e.preventDefault();
         const text = form[0].value;
         ws.send(text);
+        const li = document.createElement('li');
+        li.textContent = "You: " + text;
+        ul.appendChild(li);
         form[0].value = "";
       });
     };
 
-    const ul = document.getElementById("ul");
+   
     ws.addEventListener('message', (e) => {
         const li = document.createElement('li');
-        li.textContent = e.data;
+        li.textContent = "Unknown: " + e.data;
         ul.appendChild(li);
     })
   </script>
