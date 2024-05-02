@@ -5,19 +5,27 @@ const wss = new ws.Server({port:3030});
 // ws.send("hello server")
 
 
-const sockets = []
+// const sockets = []
 wss.on('connection', (socket) => {
-    sockets.push(socket)
+    // sockets.push(socket)
     console.log("New User Connected!");
 
     socket.on("message", (data) => {
         const msg = data.toString();
-        sockets.forEach(st => {
-            if(st != socket){
-                st.send(msg)
+
+        wss.clients.forEach(cl => {
+            if(cl != socket){
+                cl.send(msg)
             }
-           
         })
+
+
+
+        // sockets.forEach(st => {
+        //     if(st != socket){
+        //         st.send(msg)
+        //     } 
+        // })
     });
 
     socket.on('close', () => {
